@@ -1,0 +1,73 @@
+https://codeforces.com/contest/414/problem/B
+#include <bits/stdc++.h>
+
+#define ll long long
+#define mr make_pair
+
+using namespace std;
+
+ll max(ll a, ll b){
+    if(a>b) return a;
+    return b;
+}
+
+ll min(ll a, ll b){
+    if(a<b) return a;
+    return b;
+}
+
+int max(int a,int b){
+    if(a>b) return a;
+    return b;
+}
+
+int min(int a,int b){
+    if(a<b) return a;
+    return b;
+}
+
+void f(vector<ll> &v,ll &n){
+   for(ll i = 0;i<n;i++){
+       cin>>v[i];
+   }
+}
+
+void sort(vector<ll>& v){
+    sort(v.begin(),v.end());
+}
+
+void sort(vector<int>& v){
+    sort(v.begin(),v.end());
+}
+
+ll solve(ll n,ll k,ll modu){
+
+}
+
+int main(){
+   
+    ll n,k;
+    cin>>n>>k;
+
+    ll modu = 1e9+7;
+
+    vector<vector<ll>> dp(k+1,vector<ll>(n+1,0));
+
+    for(ll i=1;i<=n;i++){
+        dp[k][i] = 1;
+    }
+
+    
+
+    for(ll i=k-1;i>=0;i--){
+       for(ll j=1;j<=n;j++){
+          for(ll s = j;s<=n;s+=j){
+            dp[i][j] = (dp[i][j]+dp[i+1][s])%modu;
+          }
+       }
+    }
+
+
+    cout<<dp[0][1]<<endl;
+
+}
