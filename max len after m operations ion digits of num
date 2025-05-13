@@ -1,0 +1,87 @@
+https://codeforces.com/problemset/problem/1513/C
+#include <bits/stdc++.h>
+
+#define ll long long
+#define mr make_pair
+
+using namespace std;
+
+ll max(ll a, ll b){
+    if(a>b) return a;
+    return b;
+}
+
+ll min(ll a, ll b){
+    if(a<b) return a;
+    return b;
+}
+
+int max(int a,int b){
+    if(a>b) return a;
+    return b;
+}
+
+int min(int a,int b){
+    if(a<b) return a;
+    return b;
+}
+
+void f(vector<ll> &v,ll &n){
+   for(ll i = 0;i<n;i++){
+       cin>>v[i];
+   }
+}
+
+void sort(vector<ll>& v){
+    sort(v.begin(),v.end());
+}
+
+void sort(vector<int>& v){
+    sort(v.begin(),v.end());
+}
+
+int main(){
+    ll t;
+    cin>>t;
+
+    ll modu = 1e9+7;
+
+    vector<vector<ll>> dp(2e5+1,vector<ll>(10,1));
+
+
+    dp[1][9] = 2;
+
+
+    for(ll i=2;i<=2e5;i++){
+        for(ll j=0;j<=9;j++){
+            if(j != 9){
+                dp[i][j] = dp[i-1][j+1];
+            }
+            else{
+                dp[i][j] = (dp[i-1][0]+dp[i-1][1])%modu;
+            }
+        }
+    }
+    
+
+    while(t--){
+       ll n,m;
+       cin>>n>>m;
+
+       ll modu = 1e9+7;
+
+       ll ans = 0;
+
+       while(n){
+         ll dig = n%10;
+
+         n = n/10;
+
+         ans = (ans+dp[m][dig])%modu;
+       }
+
+       cout<<ans<<endl;
+       
+    }
+
+}
