@@ -1,0 +1,86 @@
+ https://cses.fi/problemset/task/2181/
+#include <bits/stdc++.h>
+ 
+#define ll long long
+#define mr make_pair
+ 
+using namespace std;
+ 
+ll max(ll a, ll b){
+    if(a>b) return a;
+    return b;
+}
+ 
+ll min(ll a, ll b){
+    if(a<b) return a;
+    return b;
+}
+ 
+int max(int a,int b){
+    if(a>b) return a;
+    return b;
+}
+ 
+int min(int a,int b){
+    if(a<b) return a;
+    return b;
+}
+ 
+void f(vector<ll> &v,ll &n){
+   for(ll i = 0;i<n;i++){
+       cin>>v[i];
+   }
+}
+ 
+void sort(vector<ll>& v){
+    sort(v.begin(),v.end());
+}
+ 
+void sort(vector<int>& v){
+    sort(v.begin(),v.end());
+}
+ 
+void calc(ll mask1,ll mask2,vector<vector<ll>>& trans,ll n,ll ind){
+ if(ind > n) return;
+ if(ind == n){
+     trans[mask1].push_back(mask2);
+     return;
+ }
+ 
+ calc(mask1|(1<<ind),mask2,trans,n,ind+1);
+ calc(mask1,mask2|(1<<ind),trans,n,ind+1);
+ calc(mask1,mask2,trans,n,ind+2);
+ 
+}
+ 
+ll modu = 1e9+7;
+ 
+ll solve(ll ind,ll mask,ll m,vector<vector<ll>>& trans,vector<vector<ll>>& dp){
+    if(ind == m){
+        if(mask == 0) return 1;
+        return 0;
+    }
+ 
+    if(dp[ind][mask] != -1) return dp[ind][mask];
+ 
+    ll ans = 0;
+ 
+    for(auto it : trans[mask]){
+        ans = (ans+solve(ind+1,it,m,trans,dp))%modu;
+    }
+ 
+    return dp[ind][mask] = ans;
+}
+ 
+int main(){
+    ll n,m;
+    cin>>n>>m;
+ 
+    ll totmask = 1<<n;
+ 
+    vector<vector<ll>> trans(totmask);
+ 
+    calc(0,0,trans,n,0);
+    vector<vector<ll>> dp(m,vector<ll>(totmask,-1));
+    cout<<solve(0,0,m,trans,dp)<<endl;
+}
