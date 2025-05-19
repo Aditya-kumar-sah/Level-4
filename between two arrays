@@ -1,0 +1,91 @@
+https://atcoder.jp/contests/abc222/tasks/abc222_d
+#include <bits/stdc++.h>
+
+#define ll long long
+#define mr make_pair
+
+using namespace std;
+
+ll max(ll a, ll b){
+    if(a>b) return a;
+    return b;
+}
+
+ll min(ll a, ll b){
+    if(a<b) return a;
+    return b;
+}
+
+int max(int a,int b){
+    if(a>b) return a;
+    return b;
+}
+
+int min(int a,int b){
+    if(a<b) return a;
+    return b;
+}
+
+void f(vector<ll> &v,ll &n){
+   for(ll i = 0;i<n;i++){
+       cin>>v[i];
+   }
+}
+
+void sort(vector<ll>& v){
+    sort(v.begin(),v.end());
+}
+
+void sort(vector<int>& v){
+    sort(v.begin(),v.end());
+}
+
+int main(){
+    ll n;
+    cin>>n;
+
+    vector<ll> a(n);
+    vector<ll> b(n);
+
+    f(a,n);
+    f(b,n);
+
+    vector<vector<ll>> dp(n,vector<ll>(3001,0));
+
+    vector<ll> pre(3002);
+
+    ll modu=998244353;
+
+
+    for(ll i=0;i<=3000;i++){
+        if(i>=a[n-1] && i<=b[n-1]) dp[n-1][i] = 1;
+    }
+
+    pre[0] = 0;
+    for(ll j=1;j<=3001;j++){
+        pre[j] = (pre[j-1]+dp[n-1][j-1])%modu;
+    }
+
+    for(ll i=n-2;i>=0;i--){
+        for(ll j=0;j<=3000;j++){
+            if(j>=a[i] && j<=b[i]){
+                dp[i][j] = (pre[3001]-pre[j]+modu)%modu;
+            }
+        }
+        for(ll j=1;j<=3001;j++){
+          pre[j] = (pre[j-1]+dp[i][j-1])%modu;
+        }
+    }
+
+
+    ll ans = 0;
+
+    for(ll i=0;i<=3000;i++){
+        if(i>=a[0] && i<=b[0]){
+            ans = (ans+dp[0][i])%modu;
+        }
+    }
+
+    cout<<ans<<endl;
+
+}
