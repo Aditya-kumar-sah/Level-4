@@ -1,0 +1,100 @@
+https://codeforces.com/contest/1633/problem/D
+#include <bits/stdc++.h>
+
+#define ll long long
+#define mr make_pair
+
+using namespace std;
+
+ll max(ll a, ll b){
+    if(a>b) return a;
+    return b;
+}
+
+ll min(ll a, ll b){
+    if(a<b) return a;
+    return b;
+}
+
+int max(int a,int b){
+    if(a>b) return a;
+    return b;
+}
+
+int min(int a,int b){
+    if(a<b) return a;
+    return b;
+}
+
+void f(vector<ll> &v,ll &n){
+   for(ll i = 0;i<n;i++){
+       cin>>v[i];
+   }
+}
+
+void sort(vector<ll>& v){
+    sort(v.begin(),v.end());
+}
+
+void sort(vector<int>& v){
+    sort(v.begin(),v.end());
+}
+
+ll calcMoves(ll a,ll b){
+     
+}
+
+int main(){
+    ll t;
+    cin>>t;
+
+    while(t--){
+        ll n,k;
+        cin>>n>>k;
+
+        vector<ll> b(n);
+        vector<ll> c(n);
+
+        f(b,n);
+        f(c,n);
+
+        ll maxi = 0;
+
+        for(ll i=0;i<n;i++){
+            maxi = max(maxi,b[i]);
+        }
+
+        vector<ll> req(maxi+1,1e9);
+
+        req[1] = 0;
+
+        // performing bfs to calculate number of moves
+        for(ll i=1;i<=maxi;i++){
+            for(ll j=1;j<=i;j++){
+                if((i+i/j)<=maxi) req[i+i/j] = min(req[i+i/j],1+req[i]);
+            }
+        }
+
+        // k is unecessarily large, as if all ele are 1e3 then we need only 12 moves to reach 1e3 from 1 hence a total of 12*n moves
+        k = min(k,12*n);
+
+        vector<ll> next(k+1);
+        vector<ll> curr(k+1);
+
+        for(ll i=0;i<=k;i++){
+            next[i] = 0;
+        }
+
+        for(ll i=n-1;i>=0;i--){
+            for(ll j=0;j<=k;j++){
+                curr[j] = next[j];
+                ll moves = req[b[i]];
+                if(j>=moves) curr[j] = max(curr[j],c[i]+next[j-moves]);
+            }
+            next = curr;
+        }
+
+        cout<<next[k]<<endl;
+    }
+
+}
